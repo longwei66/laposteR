@@ -3,6 +3,12 @@ When Data Science meets Analog Photography
 
 ## Introduction and objective
 
+## License
+
+Data : Open Database License (ODbL)
+
+Code : GNU General Public License v3.0
+
 ## Data sources
 The data used in this project are from different sources.
 
