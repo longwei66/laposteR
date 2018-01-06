@@ -12,4 +12,10 @@ loadLibraries <- function(){
 	library(ggplot2)
 	library(plotly)
 	library(leaflet)
+	library(deldir)
+	library(ggthemes)
+	library(foreign)
+	library(sp)
+	library(dplyr)
+	library(htmlwidgets)
 }
