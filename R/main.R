@@ -8,6 +8,7 @@
 ## =============================================================================
 ## 	0. Load libraries & functions & data sources
 ## =============================================================================
+source('./R/core-R/load-libraries.R')
 source('./R/core-R/load-functions.R')
 loadLibraries()
 loadFunctions()
@@ -36,7 +37,7 @@ post.offices[ , ':=' (
 
 ## Subsetting Pyrenees Orientales
 mailboxes.pyrenees.orientales <- mailbox[
-	grepl(pattern = "^(66)[0-9]{3}$",x = CO_POSTAL)
+	grepl(pattern = "^(66)[0-9]{3}$",x = co_postal)
 	]
 post.offices.pyrenees.orientales <- post.offices[
 	grepl(pattern = "^(66)[0-9]{3}$",x =  code_postal)]
@@ -65,7 +66,7 @@ france.level.5.df <- fortify(france.level.5)
 ## 	3. Exploratory analysis
 ## =============================================================================
 
-g <- ggplot(data = mailboxes.pyrenees.orientales[CO_POSTAL =="66820"])
+g <- ggplot(data = mailboxes.pyrenees.orientales[co_postal =="66820"])
 g <- g + geom_point(aes(x = Long, y = Lat))
 g <- g + geom_point(data = post.offices.pyrenees.orientales[code_postal == "66820"], aes(x = Long, y = Lat), color = "red")
 g <- g + coord_fixed()
@@ -85,7 +86,8 @@ icon.mailbox <- makeAwesomeIcon(icon= 'email', library = 'ion',
 
 m <- leaflet(width=1400, height=1024) %>%
 	# base map
-	addProviderTiles("Hydda.Base") %>%
+	#addProviderTiles("Hydda.Base") %>%
+	addProviderTiles("OpenStreetMap.Mapnik") %>%
 	
 	## Partitions
 	addPolygons(data=france.level.5[france.level.5$NAME_2 %in% c("Pyrénées-Orientales"),],
@@ -117,11 +119,11 @@ m <- leaflet(width=1400, height=1024) %>%
 			  lng=~Long,
 			  lat=~Lat,
 			  popup = ~as.character(paste(
-			  	paste(CO_POSTAL,LB_COM),
-			  	paste("Code INSEE:",CO_INSEE_COM),
+			  	paste(co_postal,lb_com),
+			  	paste("Code INSEE:",co_insee_com),
 			  	sep="<br>")),
 			  icon = icon.mailbox,
-			  label = ~as.character(LB_COM)
+			  label = ~as.character(lb_com)
 	)	
 
 saveWidget(m, file = "posteR.html")

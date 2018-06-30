@@ -1,7 +1,15 @@
 library(leaflet)
 library(shiny)
 library(shinydashboard)
+#devtools::install_github("SymbolixAU/googleway")
+library(googleway)
 
+
+df <- data.frame(lat = -37.817714,
+		 lon = 144.967260,
+		 info = "Flinders Street Station")
+
+map_key <- "AIzaSyAu13KLJE7GOzW-XmW1aveqnGvH2bc8ayY"
 
 # header board
 header <- dashboardHeader(
@@ -51,7 +59,7 @@ body <- dashboardBody(
 					id = "tabset1",
 					width = 12,
 					tabPanel("Carte", leafletOutput("mymap")),
-					tabPanel("Données", "Tab content 2")
+					tabPanel("Données", box( google_mapOutput("myGoogleMap") ))
 				)
 			),
 			
@@ -103,6 +111,10 @@ server <- function(input, output, session) {
 		# 	) %>%
 		# 	addMarkers(data = points())
 		m
+	})
+	
+	output$myGoogleMap <- renderGoogle_map({
+		google_map(location = c(df$lat, df$lon), key = map_key, search_box = T)
 	})
 	
 }
